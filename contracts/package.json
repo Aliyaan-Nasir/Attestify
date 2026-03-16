@@ -1,0 +1,39 @@
+{
+  "name": "@attestify/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Attestify smart contracts — Solidity on Hedera HSCS",
+  "scripts": {
+    "build": "npx hardhat compile",
+    "clean": "npx hardhat clean",
+    "test": "npx hardhat test",
+    "deploy": "npx hardhat run scripts/deploy.ts --network hedera_testnet",
+    "verify": "npx hardhat verify --network hedera_testnet",
+    "verify:all": "npx hardhat run scripts/verify.ts --network hedera_testnet"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
+    "@typechain/ethers-v6": "^0.5.1",
+    "@typechain/hardhat": "^9.1.0",
+    "ethers": "^6.13.4",
+    "hardhat": "^2.22.17",
+    "hardhat-gas-reporter": "^2.2.2",
+    "solidity-coverage": "^0.8.14",
+    "typechain": "^8.3.2",
+    "typescript": "^5.6.2",
+    "ts-node": "^10.9.2",
+    "dotenv": "^16.4.5",
+    "chai": "^4.5.0",
+    "@types/chai": "^4.3.20",
+    "@types/node": "^22.10.0"
+  },
+  "keywords": [
+    "attestify",
+    "hedera",
+    "solidity",
+    "smart-contracts"
+  ],
+  "license": "MIT"
+}
