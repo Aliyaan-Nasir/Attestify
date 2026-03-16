@@ -1,0 +1,16 @@
+packages:
+  - apps/*
+  - packages/*
+  - contracts
+  - bounty/agent
+  - '!**/test/**'
+  - '!**/node_modules/**'
+ignoredBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - esbuild
+  - keccak
+  - prisma
+  - protobufjs
+  - secp256k1
+  - sharp
