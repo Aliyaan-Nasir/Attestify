@@ -1,0 +1,18 @@
+{
+  "network": "testnet",
+  "schemas": {
+    "topicId": "0.0.8221945",
+    "name": "attestify.schemas",
+    "createdAt": "2026-03-14T22:08:01.736Z"
+  },
+  "attestations": {
+    "topicId": "0.0.8221946",
+    "name": "attestify.attestations",
+    "createdAt": "2026-03-14T22:08:01.736Z"
+  },
+  "authorities": {
+    "topicId": "0.0.8221947",
+    "name": "attestify.authorities",
+    "createdAt": "2026-03-14T22:08:01.736Z"
+  }
+}
