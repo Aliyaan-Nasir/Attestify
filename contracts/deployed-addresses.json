@@ -1,0 +1,52 @@
+{
+  "localhost": {
+    "SchemaRegistry": {
+      "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "timestamp": "2026-03-11T20:15:18.029Z"
+    },
+    "AttestationService": {
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "timestamp": "2026-03-11T20:15:18.043Z"
+    },
+    "WhitelistResolver": {
+      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "timestamp": "2026-03-11T20:15:18.067Z"
+    },
+    "TokenGatedResolver": {
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "timestamp": "2026-03-11T20:15:18.087Z"
+    },
+    "FeeResolver": {
+      "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      "timestamp": "2026-03-11T20:15:18.099Z"
+    }
+  },
+  "hedera_testnet": {
+    "SchemaRegistry": {
+      "address": "0x8320Ae819556C449825F8255e92E7e1bc06c2e80",
+      "timestamp": "2026-03-11T20:20:37.047Z"
+    },
+    "AttestationService": {
+      "address": "0xce573F82e73F49721255088C7b4D849ad0F64331",
+      "timestamp": "2026-03-11T20:20:45.812Z"
+    },
+    "WhitelistResolver": {
+      "address": "0x461349A8aEfB220A48b61923095DfF237465c27A",
+      "timestamp": "2026-03-11T20:20:54.365Z"
+    },
+    "TokenGatedResolver": {
+      "address": "0x7d04a83cF73CD4853dB4E378DD127440d444718c",
+      "timestamp": "2026-03-11T20:21:02.748Z"
+    },
+    "FeeResolver": {
+      "address": "0x7460B74e14d17f0f852959D69Db3F1EAE72aF37C",
+      "timestamp": "2026-03-11T20:21:11.274Z"
+    },
+    "HCSTopics": {
+      "schemas": "0.0.8221945",
+      "attestations": "0.0.8221946",
+      "authorities": "0.0.8221947",
+      "timestamp": "2026-03-15T00:00:00.000Z"
+    }
+  }
+}
