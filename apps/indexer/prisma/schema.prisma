@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Schema {
+  id               String   @id @default(uuid())
+  uid              String   @unique
+  definition       String
+  authorityAddress String
+  resolverAddress  String?
+  revocable        Boolean  @default(true)
+  hcsTopicId       String?
+  transactionHash  String
+  blockNumber      Int
+  consensusTimestamp String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([authorityAddress])
+  @@index([blockNumber])
+  @@map("schemas")
+}
+
+model Attestation {
+  id                String    @id @default(uuid())
+  uid               String    @unique
+  schemaUid         String
+  attesterAddress   String
+  subjectAddress    String
+  data              String
+  nonce             Int
+  transactionHash   String
+  blockNumber       Int
+  consensusTimestamp String?
+  expirationTime    DateTime?
+  revoked           Boolean   @default(false)
+  revocationTime    DateTime?
+  revocationTxHash  String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([schemaUid])
+  @@index([attesterAddress])
+  @@index([subjectAddress])
+  @@index([revoked])
+  @@index([blockNumber])
+  @@map("attestations")
+}
+
+model Authority {
+  id                String   @id @default(uuid())
+  address           String   @unique
+  metadata          String?
+  isVerified        Boolean  @default(false)
+  transactionHash   String
+  blockNumber       Int
+  consensusTimestamp String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([isVerified])
+  @@map("authorities")
+}
+
+model IndexerState {
+  id                    String   @id @default(uuid())
+  lastProcessedTimestamp String
+  lastProcessedBlock    Int
+  syncStatus            String   @default("syncing")
+  errorMessage          String?
+  updatedAt             DateTime @updatedAt
+
+  @@map("indexer_state")
+}
