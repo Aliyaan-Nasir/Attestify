@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: #171717;
+  --background: #ffffff;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* Grid background pattern */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, #e5e5e5 1px, transparent 1px),
+    linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Bracket label style — decorative corner brackets that frame the text */
+.bracket-label {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Top-only corners (default) */
+.bracket-label::before,
+.bracket-label::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: currentColor;
+}
+
+.bracket-label::before {
+  top: 0;
+  left: 0;
+  border-top: 1.5px solid;
+  border-left: 1.5px solid;
+}
+
+.bracket-label::after {
+  top: 0;
+  right: 0;
+  border-top: 1.5px solid;
+  border-right: 1.5px solid;
+}
+
+/* 4-corner bracket variant: ::before = left side (top-left + bottom-left), ::after = right side (top-right + bottom-right) */
+.bracket-label.bracket-label-bottom::before {
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 100%;
+  border-top: 1.5px solid;
+  border-left: 1.5px solid;
+  border-bottom: 1.5px solid;
+  border-right: none;
+}
+
+.bracket-label.bracket-label-bottom::after {
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 100%;
+  border-top: 1.5px solid;
+  border-right: 1.5px solid;
+  border-bottom: 1.5px solid;
+  border-left: none;
+}
+
+/* macOS window dots */
+.mac-dots::before {
+  content: '';
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f57;
+  box-shadow: 18px 0 0 #febc2e, 36px 0 0 #28c840;
+}
+
+@media (max-width: 640px) {
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Hide footer inside sandbox app */
+:has(.sandbox-layout) footer {
+  display: none;
+}
+
+/* Dotted circle pattern for sandbox playground */
+.dot-bg {
+  background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-color: #f5f5f5;
+}
