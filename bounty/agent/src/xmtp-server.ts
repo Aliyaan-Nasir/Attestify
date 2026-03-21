@@ -65,6 +65,7 @@ export async function startXMTPServer() {
 
   try {
     // Dynamic import — @xmtp/node-sdk is optional
+    // @ts-ignore — optional dependency, may not be installed
     const xmtp = await import('@xmtp/node-sdk').catch(() => null);
 
     if (!xmtp) {
