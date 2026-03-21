@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { Search, Loader2, AlertTriangle } from 'lucide-react';
 import { indexerApi } from '@/lib/api';
 
-export type SearchInputType = 'uid' | 'address' | 'invalid';
+type SearchInputType = 'uid' | 'address' | 'invalid';
 
-export function detectSearchType(input: string): SearchInputType {
+function detectSearchType(input: string): SearchInputType {
   const trimmed = input.trim().toLowerCase();
   if (/^0x[0-9a-f]{64}$/.test(trimmed)) return 'uid';
   if (/^0x[0-9a-f]{40}$/.test(trimmed)) return 'address';
