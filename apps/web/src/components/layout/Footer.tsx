@@ -19,21 +19,21 @@ export function Footer() {
             <p className="mb-2 text-xs font-medium uppercase tracking-wider text-surface-400">Resources</p>
             <div className="flex flex-col gap-1.5">
               <Link href="/docs" className="text-xs text-surface-500 hover:text-surface-900">Documentation</Link>
-              <Link href="/docs" className="text-xs text-surface-500 hover:text-surface-900">API Reference</Link>
+              <a href="https://portal.hedera.com/faucet" target="_blank" rel="noopener noreferrer" className="text-xs text-surface-500 hover:text-surface-900">Testnet Faucet</a>
             </div>
           </div>
           <div>
             <p className="mb-2 text-xs font-medium uppercase tracking-wider text-surface-400">Company</p>
             <div className="flex flex-col gap-1.5">
               <Link href="/about" className="text-xs text-surface-500 hover:text-surface-900">About us</Link>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-xs text-surface-500 hover:text-surface-900">GitHub</a>
+              <a href="https://github.com/Aliyaan-Nasir/Attestify" target="_blank" rel="noopener noreferrer" className="text-xs text-surface-500 hover:text-surface-900">GitHub</a>
             </div>
           </div>
           <div>
             <p className="mb-2 text-xs font-medium uppercase tracking-wider text-surface-400">Connect</p>
             <div className="flex flex-col gap-1.5">
               <a href="https://www.npmjs.com/package/@attestify/sdk" target="_blank" rel="noopener noreferrer" className="text-xs text-surface-500 hover:text-surface-900">SDK</a>
-              <a href="https://portal.hedera.com/faucet" target="_blank" rel="noopener noreferrer" className="text-xs text-surface-500 hover:text-surface-900">Testnet Faucet</a>
+              <a href="https://www.npmjs.com/package/@attestify/cli" target="_blank" rel="noopener noreferrer" className="text-xs text-surface-500 hover:text-surface-900">CLI</a>
             </div>
           </div>
         </div>

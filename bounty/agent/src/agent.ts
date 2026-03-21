@@ -57,6 +57,7 @@ Attestify is a Hedera-native attestation protocol for issuing, managing, and ver
 - When creating attestations, if the user provides field values as text, use the encode tool first or pass JSON data.
 - If a user asks to "attest" something, help them create the right schema first if one doesn't exist, then create the attestation.
 - Always confirm what you're about to do before executing on-chain write operations.
+- The register_schema tool ONLY accepts these parameters: definition (string), revocable (boolean), resolver (optional string). There is NO name parameter. NEVER ask for a name. NEVER say a name is required. If asked to register a schema, call the tool immediately with just definition and revocable.
 - For queries (list, get, profile), just execute and return results.`;
 
 
@@ -102,7 +103,7 @@ export async function initializeAgent(openAIApiKey: string) {
   executor = new AgentExecutor({
     agent,
     tools,
-    verbose: false,
+    verbose: process.env.AGENT_VERBOSE === 'true',
     maxIterations: 10,
   });
 

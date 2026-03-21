@@ -42,24 +42,32 @@ export function initializeSDK(config: {
 
 export const registerSchemaTool = tool(
   async ({ definition, revocable, resolver }) => {
-    const result = await service.registerSchema({
-      definition,
-      revocable: revocable ?? true,
-      resolver,
-    });
-    if (!result.success) {
-      return `Failed to register schema: ${result.error?.message}`;
+    try {
+      const result = await service.registerSchema({
+        definition,
+        revocable: revocable ?? true,
+        resolver,
+      });
+      if (!result.success) {
+        const errMsg = result.error?.message || 'Unknown error';
+        if (errMsg.includes('SchemaAlreadyExists')) {
+          return `Schema with definition "${definition}" already exists on-chain (duplicate UID). Try a different definition.`;
+        }
+        return `Schema registration failed with contract error: ${errMsg}. This is NOT a missing parameter issue — all parameters were provided correctly.`;
+      }
+      return `Schema registered successfully!\nSchema UID: ${result.data!.schemaUid}\nDefinition: ${definition}\nRevocable: ${revocable ?? true}`;
+    } catch (err: any) {
+      return `Schema registration threw an exception: ${err.message}. This is a contract/network error, not a parameter issue.`;
     }
-    return `Schema registered successfully!\nSchema UID: ${result.data!.schemaUid}\nDefinition: ${definition}\nRevocable: ${revocable ?? true}`;
   },
   {
     name: 'register_schema',
     description:
-      'Register a new attestation schema on-chain. A schema defines the structure of attestation data (e.g. "string name, uint256 age, bool verified"). Returns the schema UID.',
+      'Register a new attestation schema on-chain. A schema defines the structure of attestation data using comma-separated Solidity ABI types. Only requires: definition, revocable, and optional resolver. Returns the schema UID.',
     schema: z.object({
       definition: z
         .string()
-        .describe('Schema definition with comma-separated Solidity ABI types and field names, e.g. "string name, uint256 age, bool verified"'),
+        .describe('Schema definition with comma-separated Solidity ABI types and field names, e.g. "string title, uint256 score, bool verified"'),
       revocable: z
         .boolean()
         .optional()

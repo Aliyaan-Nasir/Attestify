@@ -80,7 +80,7 @@ const AI_AGENT = [
 
 const EXTERNAL = [
   { label: 'Documentation', href: '/docs' },
-  { label: 'GitHub', href: 'https://github.com' },
+  { label: 'GitHub', href: 'https://github.com/Aliyaan-Nasir/Attestify' },
 ];
 
 type NavItem = { icon: React.ComponentType<{ className?: string }>; label: string; desc: string; href: string };
