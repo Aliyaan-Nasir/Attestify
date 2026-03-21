@@ -2,6 +2,7 @@
   "name": "@attestify/agent",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@9.15.4",
   "description": "Attestify AI Agent — Natural language interface to the Attestify protocol via HCS-10",
   "type": "module",
   "scripts": {
@@ -18,7 +19,7 @@
     "xmtp": "tsx src/xmtp-server.ts"
   },
   "dependencies": {
-    "@attestify/sdk": "workspace:*",
+    "@attestify/sdk": "^0.1.2",
     "@hashgraph/sdk": "^2.55.0",
     "@hashgraphonline/standards-sdk": "^0.1.165",
     "@langchain/core": "^0.3.0",
