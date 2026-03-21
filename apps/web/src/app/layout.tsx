@@ -36,7 +36,7 @@ export default function RootLayout({
       <body className={`${spaceGrotesk.variable} flex min-h-screen flex-col bg-white text-surface-900 antialiased`}>
         <WalletProvider>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pt-16">{children}</main>
           <Footer />
         </WalletProvider>
       </body>

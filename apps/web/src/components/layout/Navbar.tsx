@@ -20,11 +20,11 @@ export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-surface-200/80 bg-white/80 backdrop-blur-xl">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-surface-200/80 bg-white/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-1 -ml-2">
-          <Image src="/logo2.png" alt="Attestify" width={36} height={33} className="h-7 w-auto" />
+          <Image src="/logo2.png" alt="Attestify" width={36} height={33} className="h-7 w-auto -mt-1" />
           <span className="font-[family-name:var(--font-logo)] text-xl tracking-tight">
             <span className="font-bold text-surface-900">Attest</span>
             <span className="font-medium text-brand-500">ify</span>
@@ -32,7 +32,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop nav — centered links */}
-        <div className="hidden flex-1 items-center justify-center gap-1 md:flex">
+        <div className="hidden flex-1 items-center justify-center gap-1 md:flex ml-8">
           {NAV_LINKS.map((link) => {
             const isActive = pathname.startsWith(link.href);
             return (
