@@ -93,7 +93,18 @@ async function main() {
   await startXMTPServer();
 }
 
+// Crash on unhandled errors so Railway restarts the process
+process.on('uncaughtException', (err) => {
+  console.error('[Fatal] Uncaught exception — exiting:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('[Fatal] Unhandled rejection — exiting:', reason);
+  process.exit(1);
+});
+
 main().catch((err) => {
-  console.error('Fatal error:', err);
+  console.error('[Fatal] Bootstrap failed — exiting:', err);
   process.exit(1);
 });

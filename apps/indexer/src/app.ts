@@ -43,58 +43,59 @@ async function bootstrap(): Promise<void> {
   const connected = await connectToPostgreSQL();
   const prisma = getPrismaClient();
 
-  if (connected && prisma) {
-    // Mount API routes
-    app.use('/api', createApiRouter(prisma));
+  if (!connected || !prisma) {
+    console.error('FATAL: Database connection failed. Exiting so Railway can restart.');
+    process.exit(1);
+  }
 
-    // Start indexer polling loop
-    const schemaRegistryAddress = process.env.SCHEMA_REGISTRY_ADDRESS;
-    const attestationServiceAddress = process.env.ATTESTATION_SERVICE_ADDRESS;
+  // Mount API routes
+  app.use('/api', createApiRouter(prisma));
 
-    if (schemaRegistryAddress && attestationServiceAddress) {
-      const mirrorNodeClient = new MirrorNodeClient();
+  // Start indexer polling loop
+  const schemaRegistryAddress = process.env.SCHEMA_REGISTRY_ADDRESS;
+  const attestationServiceAddress = process.env.ATTESTATION_SERVICE_ADDRESS;
 
-      // Initialize HCS publisher (optional — only if topic IDs are configured)
-      const hcsTopicSchemas = process.env.HCS_TOPIC_SCHEMAS;
-      const hcsTopicAttestations = process.env.HCS_TOPIC_ATTESTATIONS;
-      const hcsTopicAuthorities = process.env.HCS_TOPIC_AUTHORITIES;
-      const hcsAccountId = process.env.HEDERA_ACCOUNT_ID;
-      const hcsPrivateKey = process.env.HEDERA_PRIVATE_KEY;
+  if (schemaRegistryAddress && attestationServiceAddress) {
+    const mirrorNodeClient = new MirrorNodeClient();
 
-      let hcsPublisher: HCSPublisher | undefined;
-      if (hcsTopicSchemas && hcsTopicAttestations && hcsTopicAuthorities) {
-        hcsPublisher = new HCSPublisher(
-          { schemas: hcsTopicSchemas, attestations: hcsTopicAttestations, authorities: hcsTopicAuthorities },
-          hcsAccountId,
-          hcsPrivateKey,
-        );
-      }
+    // Initialize HCS publisher (optional — only if topic IDs are configured)
+    const hcsTopicSchemas = process.env.HCS_TOPIC_SCHEMAS;
+    const hcsTopicAttestations = process.env.HCS_TOPIC_ATTESTATIONS;
+    const hcsTopicAuthorities = process.env.HCS_TOPIC_AUTHORITIES;
+    const hcsAccountId = process.env.HEDERA_ACCOUNT_ID;
+    const hcsPrivateKey = process.env.HEDERA_PRIVATE_KEY;
 
-      const indexer = new Indexer(prisma, {
-        schemaRegistryAddress,
-        attestationServiceAddress,
-        pollingIntervalMs: parseInt(process.env.POLLING_INTERVAL_MS || '5000', 10),
-        mirrorNodeClient,
-        hcsPublisher,
-      });
-
-      await indexer.start();
-
-      // Graceful shutdown
-      const shutdown = async () => {
-        console.log('Shutting down...');
-        indexer.stop();
-        await disconnectPostgreSQL();
-        process.exit(0);
-      };
-
-      process.on('SIGTERM', shutdown);
-      process.on('SIGINT', shutdown);
-    } else {
-      console.warn('Contract addresses not configured. Indexer polling disabled.');
+    let hcsPublisher: HCSPublisher | undefined;
+    if (hcsTopicSchemas && hcsTopicAttestations && hcsTopicAuthorities) {
+      hcsPublisher = new HCSPublisher(
+        { schemas: hcsTopicSchemas, attestations: hcsTopicAttestations, authorities: hcsTopicAuthorities },
+        hcsAccountId,
+        hcsPrivateKey,
+      );
     }
+
+    const indexer = new Indexer(prisma, {
+      schemaRegistryAddress,
+      attestationServiceAddress,
+      pollingIntervalMs: parseInt(process.env.POLLING_INTERVAL_MS || '5000', 10),
+      mirrorNodeClient,
+      hcsPublisher,
+    });
+
+    await indexer.start();
+
+    // Graceful shutdown
+    const shutdown = async () => {
+      console.log('Shutting down gracefully...');
+      indexer.stop();
+      await disconnectPostgreSQL();
+      process.exit(0);
+    };
+
+    process.on('SIGTERM', shutdown);
+    process.on('SIGINT', shutdown);
   } else {
-    console.warn('Database not connected. API routes not mounted.');
+    console.warn('Contract addresses not configured. Indexer polling disabled.');
   }
 
   // Mount error handling middleware after all routes
@@ -106,16 +107,20 @@ async function bootstrap(): Promise<void> {
   });
 }
 
-// Catch unhandled errors so the process doesn't silently die
+// Crash on unhandled errors so Railway restarts the process
 process.on('uncaughtException', (err) => {
-  console.error('Uncaught exception:', err);
-  // Don't exit — let pm2 or the process manager decide
+  console.error('Uncaught exception — exiting:', err);
+  process.exit(1);
 });
 
 process.on('unhandledRejection', (reason) => {
-  console.error('Unhandled rejection:', reason);
+  console.error('Unhandled rejection — exiting:', reason);
+  process.exit(1);
 });
 
-bootstrap().catch(console.error);
+bootstrap().catch((err) => {
+  console.error('Bootstrap failed — exiting:', err);
+  process.exit(1);
+});
 
 export default app;
