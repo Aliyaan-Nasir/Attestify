@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ScrollText, RefreshCw, ExternalLink, ChevronDown, ChevronRight } from 'lucide-react';
 
-const INDEXER_URL = process.env.NEXT_PUBLIC_INDEXER_URL || 'http://localhost:3001';
+const INDEXER_URL = process.env.NEXT_PUBLIC_INDEXER_URL || 'http://localhost:3001/api';
 
 interface HCSTopicInfo {
   name: string;
@@ -34,7 +34,7 @@ export default function AuditLogPage() {
   const loadTopics = useCallback(async () => {
     setTopicsLoading(true);
     try {
-      const res = await fetch(`${INDEXER_URL}/api/hcs/topics`);
+      const res = await fetch(`${INDEXER_URL}/hcs/topics`);
       const json = await res.json();
       if (json.success) {
         setEnabled(json.data.enabled);
@@ -51,7 +51,7 @@ export default function AuditLogPage() {
     if (!selectedTopic) return;
     setLoading(true);
     try {
-      const res = await fetch(`${INDEXER_URL}/api/hcs/messages/${selectedTopic}?limit=50&order=desc`);
+      const res = await fetch(`${INDEXER_URL}/hcs/messages/${selectedTopic}?limit=50&order=desc`);
       const json = await res.json();
       if (json.success) {
         setMessages(json.data.messages || []);
