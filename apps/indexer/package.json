@@ -2,6 +2,7 @@
   "name": "@attestify/indexer",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@9.15.4",
   "description": "Attestify Indexer — Hedera Mirror Node event indexer",
   "main": "src/index.ts",
   "scripts": {
