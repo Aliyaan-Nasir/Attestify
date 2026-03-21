@@ -133,8 +133,8 @@ importers:
   bounty/agent:
     dependencies:
       '@attestify/sdk':
-        specifier: workspace:*
-        version: link:../../packages/sdk
+        specifier: ^0.1.2
+        version: 0.1.2(@langchain/core@0.3.80(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)))(@langchain/openai@0.4.9(@langchain/core@0.3.80(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)))(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)))(bn.js@5.2.3)(bufferutil@4.1.0)(langchain@0.3.37(@langchain/core@0.3.80(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)))(axios@1.13.6(debug@4.4.3))(handlebars@4.7.8)(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76))(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)))(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.4)(utf-8-validate@6.0.6))(utf-8-validate@6.0.6)(zod@3.25.76)
       '@hashgraph/sdk':
         specifier: ^2.55.0
         version: 2.80.0(bn.js@5.2.3)(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.4)(utf-8-validate@6.0.6))
@@ -340,6 +340,23 @@ packages:
 
   '@asamuzakjp/nwsapi@2.3.9':
     resolution: {integrity: sha512-n8GuYSrI9bF7FFZ/SjhwevlHc8xaVlb/7HmHelnc/PZXBD2ZR49NnN9sMMuDdEGPeeRQ5d0hqlSlEpgCX3Wl0Q==}
+
+  '@attestify/sdk@0.1.2':
+    resolution: {integrity: sha512-6b/oRXxo/SWw3BSgAYeYtKvmiNtJ/jTrV4wB4gqCzqE/4GryMdxsI+WV4OFosb4m4rejpQois6fRdIdT1m3Dsg==}
+    peerDependencies:
+      '@langchain/core': ^0.3.0
+      '@langchain/openai': ^0.4.0
+      langchain: ^0.3.0
+      zod: ^3.23.0
+    peerDependenciesMeta:
+      '@langchain/core':
+        optional: true
+      '@langchain/openai':
+        optional: true
+      langchain:
+        optional: true
+      zod:
+        optional: true
 
   '@babel/code-frame@7.29.0':
     resolution: {integrity: sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw==}
@@ -7092,6 +7109,23 @@ snapshots:
       lru-cache: 11.2.6
 
   '@asamuzakjp/nwsapi@2.3.9': {}
+
+  '@attestify/sdk@0.1.2(@langchain/core@0.3.80(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)))(@langchain/openai@0.4.9(@langchain/core@0.3.80(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)))(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)))(bn.js@5.2.3)(bufferutil@4.1.0)(langchain@0.3.37(@langchain/core@0.3.80(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)))(axios@1.13.6(debug@4.4.3))(handlebars@4.7.8)(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76))(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)))(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.4)(utf-8-validate@6.0.6))(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@hashgraph/sdk': 2.80.0(bn.js@5.2.3)(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.4)(utf-8-validate@6.0.6))
+      ethers: 6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+    optionalDependencies:
+      '@langchain/core': 0.3.80(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76))
+      '@langchain/openai': 0.4.9(@langchain/core@0.3.80(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)))(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      langchain: 0.3.37(@langchain/core@0.3.80(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)))(axios@1.13.6(debug@4.4.3))(handlebars@4.7.8)(openai@4.104.0(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76))(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - bn.js
+      - bufferutil
+      - expo-crypto
+      - react-native
+      - supports-color
+      - utf-8-validate
 
   '@babel/code-frame@7.29.0':
     dependencies:
