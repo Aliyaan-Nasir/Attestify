@@ -9,7 +9,7 @@
  */
 
 import { ethers } from 'ethers';
-import { Client, AccountId, PrivateKey, ScheduleCreateTransaction, ScheduleInfoQuery, ScheduleId, ContractExecuteTransaction, ContractId, AccountCreateTransaction, KeyList, PublicKey, FileCreateTransaction, FileContentsQuery, FileId } from '@hashgraph/sdk';
+import { Client, AccountId, PrivateKey, ScheduleCreateTransaction, ScheduleInfoQuery, ScheduleId, ContractExecuteTransaction, ContractId, AccountCreateTransaction, KeyList, PublicKey, FileCreateTransaction, FileContentsQuery, FileId, Timestamp } from '@hashgraph/sdk';
 import { validateConfig, DEFAULT_RPC_URL, DEFAULT_INDEXER_URL } from './config';
 import { HCSLogger } from './hcs';
 import type { HCSTopicIds } from './hcs';
@@ -672,13 +672,11 @@ export class HederaAttestService {
         .setFunctionParameters(Buffer.from(revokeData.slice(2), 'hex'));
 
       // Wrap in a ScheduleCreateTransaction
-      const expirationDate = new Date(executeAt * 1000);
       const scheduleTx = new ScheduleCreateTransaction()
         .setScheduledTransaction(innerTx)
         .setScheduleMemo(`Attestify: scheduled revocation of ${attestationUid.slice(0, 18)}...`)
         .setExpirationTime(
-          // @ts-expect-error — Timestamp.fromDate accepts Date
-          expirationDate,
+          Timestamp.fromDate(new Date(executeAt * 1000)),
         );
 
       const response = await scheduleTx.execute(this.hederaClient);
@@ -904,10 +902,10 @@ export class HederaAttestService {
       const mirrorUrl = 'https://testnet.mirrornode.hedera.com';
       const res = await fetch(`${mirrorUrl}/api/v1/accounts/${accountId}`);
       if (!res.ok) return { success: false, error: { type: ErrorType.NOT_FOUND, message: `Account ${accountId} not found` } };
-      const data = await res.json() as { key?: { _type?: string; threshold?: number; keys?: unknown[] } };
+      const data = await res.json() as { key?: { _type?: string; threshold?: number; keys?: unknown[]; key?: string } };
       const key = data.key;
       if (!key) return { success: true, data: { accountId, keyType: 'unknown' } };
-      if (key._type === 'ProtobufEncoded' || key._type === 'ED25519' || key._type === 'ECDSA_SECP256K1') {
+      if (key._type === 'ED25519' || key._type === 'ECDSA_SECP256K1') {
         return { success: true, data: { accountId, keyType: 'single' } };
       }
       if (key._type === 'ThresholdKey') {
@@ -915,6 +913,45 @@ export class HederaAttestService {
       }
       if (key._type === 'KeyList') {
         return { success: true, data: { accountId, keyType: 'keylist', keyCount: key.keys?.length } };
+      }
+      // ProtobufEncoded — decode threshold key from raw protobuf hex
+      if (key._type === 'ProtobufEncoded' && key.key) {
+        try {
+          const buf = Buffer.from(key.key, 'hex');
+          // Protobuf field 5 (ThresholdKey) starts with tag 0x2a
+          if (buf[0] === 0x2a) {
+            // Read threshold from varint at offset: 2a <len> 08 <threshold>
+            const innerStart = 2; // skip tag + length byte
+            let threshold: number | undefined;
+            let keyCount = 0;
+            let i = innerStart;
+            while (i < buf.length) {
+              const tag = buf[i];
+              if (tag === 0x08) { // field 1 = threshold (varint)
+                threshold = buf[i + 1];
+                i += 2;
+              } else if (tag === 0x12) { // field 2 = KeyList
+                // Count 0x0a tags inside the KeyList (each key entry)
+                const listLen = buf[i + 1];
+                const listEnd = i + 2 + listLen;
+                let j = i + 2;
+                while (j < listEnd && j < buf.length) {
+                  if (buf[j] === 0x0a) keyCount++;
+                  // Skip to next key entry: 0a <len> <key_field> <key_len> <key_bytes>
+                  const entryLen = buf[j + 1];
+                  j += 2 + entryLen;
+                }
+                i = listEnd;
+              } else {
+                break;
+              }
+            }
+            return { success: true, data: { accountId, keyType: 'threshold', threshold, keyCount: keyCount || undefined } };
+          }
+        } catch {
+          // Fall through to default
+        }
+        return { success: true, data: { accountId, keyType: 'protobuf-encoded' } };
       }
       return { success: true, data: { accountId, keyType: key._type || 'unknown' } };
     } catch (error) {
