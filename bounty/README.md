@@ -21,7 +21,7 @@ An AI agent registered in the [HOL Registry](https://hol.org/registry) that turn
 | 🌐 Website | [attestify-web.vercel.app](https://attestify-web.vercel.app/) |
 | 💬 Agent Chat | [attestify-web.vercel.app/sandbox/app/agent-chat](https://attestify-web.vercel.app/sandbox/app/agent-chat) |
 | 📂 GitHub | [github.com/Aliyaan-Nasir/Attestify](https://github.com/Aliyaan-Nasir/Attestify) |
-| 📊 Pitch Deck | [Google Drive](https://drive.google.com/file/d/1Bksb8vH-yQ1KFyapNTp0uBd3BMpgFVl9/view?usp=drive_link) |
+| 📊 Pitch Deck | [Google Drive](https://drive.google.com/file/d/1Bksb8vH-yQ1KFyapNTp0uBd3BMpgFVl9/view?usp=sharing) |
 | 🎥 Demo Video | [YouTube](https://youtu.be/jNkgMh1SDPs?si=utGIgUOc12F6eXhs) |
 | 📦 SDK (npm) | [@attestify/sdk](https://www.npmjs.com/package/@attestify/sdk) |
 | 🔧 CLI (npm) | [@attestify/cli](https://www.npmjs.com/package/@attestify/cli) |

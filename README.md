@@ -42,7 +42,7 @@
   <tr>
     <td><strong>Pitch Deck</strong></td>
     <td><a href="https://drive.google.com/file/d/1GbmLk7AneLYSEIvVrU40UWismI8MWMKF/view?usp=sharing">Google Drive</a></td>
-    <td><a href="https://drive.google.com/file/d/1Bksb8vH-yQ1KFyapNTp0uBd3BMpgFVl9/view?usp=drive_link">Google Drive</a></td>
+    <td><a href="https://drive.google.com/file/d/1Bksb8vH-yQ1KFyapNTp0uBd3BMpgFVl9/view?usp=sharing">Google Drive</a></td>
   </tr>
   <tr>
     <td><strong>Demo Video</strong></td>
@@ -613,7 +613,7 @@ pnpm --filter @attestify/web test
 | HOL Registry | [hol.org/registry](https://hol.org/registry) |
 | Main Track Pitch | [Google Drive](https://drive.google.com/file/d/1GbmLk7AneLYSEIvVrU40UWismI8MWMKF/view?usp=sharing) |
 | Main Track Demo | [YouTube](https://youtu.be/lfaA0AqRfG4) |
-| Bounty Pitch | [Google Drive](https://drive.google.com/file/d/1Bksb8vH-yQ1KFyapNTp0uBd3BMpgFVl9/view?usp=drive_link) |
+| Bounty Pitch | [Google Drive](https://drive.google.com/file/d/1Bksb8vH-yQ1KFyapNTp0uBd3BMpgFVl9/view?usp=sharing) |
 | Bounty Demo | [YouTube](https://youtu.be/jNkgMh1SDPs?si=utGIgUOc12F6eXhs) |
 | Bounty README | [`bounty/README.md`](bounty/README.md) |
 
