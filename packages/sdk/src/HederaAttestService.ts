@@ -414,7 +414,7 @@ export class HederaAttestService {
       if (params?.authority) query.set('authority', params.authority);
       if (params?.limit) query.set('limit', String(params.limit));
       if (params?.offset) query.set('offset', String(params.offset));
-      const url = `${this.indexerUrl}/schemas${query.toString() ? '?' + query : ''}`;
+      const url = `${this.indexerUrl}/api/schemas${query.toString() ? '?' + query : ''}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error(`Indexer returned ${res.status}`);
       const json = await res.json() as { success: boolean; data: IndexedSchemaRecord[] };
@@ -441,7 +441,7 @@ export class HederaAttestService {
       if (params?.revoked !== undefined) query.set('revoked', String(params.revoked));
       if (params?.limit) query.set('limit', String(params.limit));
       if (params?.offset) query.set('offset', String(params.offset));
-      const url = `${this.indexerUrl}/attestations${query.toString() ? '?' + query : ''}`;
+      const url = `${this.indexerUrl}/api/attestations${query.toString() ? '?' + query : ''}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error(`Indexer returned ${res.status}`);
       const json = await res.json() as { success: boolean; data: IndexedAttestationRecord[] };
@@ -455,16 +455,16 @@ export class HederaAttestService {
   async getProfile(address: string): Promise<ServiceResponse<ProfileSummary>> {
     try {
       const [authorityRes, schemasRes, issuedRes, receivedRes] = await Promise.all([
-        fetch(`${this.indexerUrl}/authorities/${address}`)
+        fetch(`${this.indexerUrl}/api/authorities/${address}`)
           .then(r => r.ok ? r.json() as Promise<{ data: IndexedAuthorityRecord }> : null)
           .catch(() => null),
-        fetch(`${this.indexerUrl}/schemas?authority=${address}&limit=100`)
+        fetch(`${this.indexerUrl}/api/schemas?authority=${address}&limit=100`)
           .then(r => r.json() as Promise<{ data: IndexedSchemaRecord[] }>)
           .catch(() => ({ data: [] as IndexedSchemaRecord[] })),
-        fetch(`${this.indexerUrl}/attestations?attester=${address}&limit=100`)
+        fetch(`${this.indexerUrl}/api/attestations?attester=${address}&limit=100`)
           .then(r => r.json() as Promise<{ data: IndexedAttestationRecord[] }>)
           .catch(() => ({ data: [] as IndexedAttestationRecord[] })),
-        fetch(`${this.indexerUrl}/attestations?subject=${address}&limit=100`)
+        fetch(`${this.indexerUrl}/api/attestations?subject=${address}&limit=100`)
           .then(r => r.json() as Promise<{ data: IndexedAttestationRecord[] }>)
           .catch(() => ({ data: [] as IndexedAttestationRecord[] })),
       ]);

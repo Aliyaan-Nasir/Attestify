@@ -1392,7 +1392,8 @@ const ai = program.command('ai')
           });
         };
         ask();
-        // Keep process alive for REPL
+        // Keep process alive for REPL — prevent auto-exit
+        (program as any).__replActive = true;
         return;
       }
     } catch (err: any) {
@@ -1401,4 +1402,10 @@ const ai = program.command('ai')
     }
   });
 
-program.parse();
+program.parseAsync().then(() => {
+  // In REPL mode, don't auto-exit — the readline keeps the process alive.
+  if ((program as any).__replActive) return;
+  // For all other commands, exit cleanly after output flushes.
+  // Without this, the Hedera SDK gRPC client keeps the process alive.
+  setTimeout(() => process.exit(process.exitCode ?? 0), 100);
+});
