@@ -1,6 +1,6 @@
 {
   "name": "@attestify/cli",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Attestify CLI — command-line tool for the Hedera attestation protocol",
   "bin": {
     "attestify": "./dist/index.js"

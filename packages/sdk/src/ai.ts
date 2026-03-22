@@ -71,7 +71,7 @@ export function getAttestifyTools(config: AttestifyAIConfig) {
   return [
     tool(
       async ({ definition, revocable, resolver }) => {
-        const result = await service.registerSchema({ definition, revocable: revocable ?? true, resolver });
+        const result = await service.registerSchema({ definition, revocable: revocable ?? true, resolver: resolver ?? undefined });
         return result.success
           ? `Schema registered! UID: ${result.data!.schemaUid}\nDefinition: ${definition}`
           : `Failed: ${result.error?.message}`;
@@ -81,8 +81,8 @@ export function getAttestifyTools(config: AttestifyAIConfig) {
         description: 'Register a new attestation schema on-chain.',
         schema: z.object({
           definition: z.string().describe('Schema definition (e.g. "string name, uint256 age, bool verified")'),
-          revocable: z.boolean().optional().describe('Whether attestations can be revoked (default true)'),
-          resolver: z.string().optional().describe('Optional resolver contract address'),
+          revocable: z.boolean().optional().nullable().describe('Whether attestations can be revoked (default true)'),
+          resolver: z.string().optional().nullable().describe('Optional resolver contract address'),
         }),
       },
     ),
@@ -97,7 +97,7 @@ export function getAttestifyTools(config: AttestifyAIConfig) {
     ),
     tool(
       async ({ authority, limit }) => {
-        const result = await service.listSchemas({ authority, limit: limit ?? 10 });
+        const result = await service.listSchemas({ authority: authority ?? undefined, limit: limit ?? 10 });
         if (!result.success) return `Failed: ${result.error?.message}`;
         const schemas = result.data!;
         if (!schemas.length) return 'No schemas found.';
@@ -105,7 +105,7 @@ export function getAttestifyTools(config: AttestifyAIConfig) {
       },
       {
         name: 'list_schemas', description: 'List schemas from the indexer.',
-        schema: z.object({ authority: z.string().optional().describe('Filter by authority'), limit: z.number().optional().describe('Max results') }),
+        schema: z.object({ authority: z.string().optional().nullable().describe('Filter by authority'), limit: z.number().optional().nullable().describe('Max results') }),
       },
     ),
     tool(
@@ -129,7 +129,7 @@ export function getAttestifyTools(config: AttestifyAIConfig) {
         name: 'create_attestation', description: 'Create an on-chain attestation.',
         schema: z.object({
           schemaUid: z.string().describe('Schema UID'), subject: z.string().describe('Subject address'),
-          data: z.string().describe('ABI-encoded hex or JSON matching schema'), expirationTime: z.number().optional().describe('Expiration timestamp'),
+          data: z.string().describe('ABI-encoded hex or JSON matching schema'), expirationTime: z.number().optional().nullable().describe('Expiration timestamp'),
         }),
       },
     ),
@@ -151,7 +151,7 @@ export function getAttestifyTools(config: AttestifyAIConfig) {
     ),
     tool(
       async ({ attester, subject, schemaUid, limit }) => {
-        const result = await service.listAttestations({ attester, subject, schemaUid, limit: limit ?? 10 });
+        const result = await service.listAttestations({ attester: attester ?? undefined, subject: subject ?? undefined, schemaUid: schemaUid ?? undefined, limit: limit ?? 10 });
         if (!result.success) return `Failed: ${result.error?.message}`;
         const list = result.data!;
         if (!list.length) return 'No attestations found.';
@@ -160,8 +160,8 @@ export function getAttestifyTools(config: AttestifyAIConfig) {
       {
         name: 'list_attestations', description: 'List attestations from the indexer.',
         schema: z.object({
-          attester: z.string().optional(), subject: z.string().optional(),
-          schemaUid: z.string().optional(), limit: z.number().optional(),
+          attester: z.string().optional().nullable(), subject: z.string().optional().nullable(),
+          schemaUid: z.string().optional().nullable(), limit: z.number().optional().nullable(),
         }),
       },
     ),
