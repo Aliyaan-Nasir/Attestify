@@ -54,7 +54,8 @@ export default function FeeResolverPage() {
       setTxHash(receipt.hash); setStatus('success'); setStep(2);
       loadInfo();
     } catch (err: unknown) {
-      setError((err as Error).message || 'Transaction failed'); setStatus('error');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err)); setStatus('error');
     }
   };
 

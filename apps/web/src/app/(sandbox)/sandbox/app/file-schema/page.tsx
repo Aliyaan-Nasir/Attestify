@@ -24,7 +24,7 @@ export default function FileSchemaPage() {
       const fakeId = '0.0.' + Math.floor(Math.random() * 9000000 + 1000000);
       setUploadResult({ fileId: fakeId });
       setRegisterFileId(fakeId);
-    } catch (e: any) { setError(e.message); } finally { setLoading(false); }
+    } catch (e: any) { const { parseContractError } = await import('@/lib/parseContractError'); setError(parseContractError(e)); } finally { setLoading(false); }
   };
 
   const handleRead = async () => {
@@ -32,7 +32,7 @@ export default function FileSchemaPage() {
     try {
       await new Promise((r) => setTimeout(r, 1000));
       setReadResult({ definition: 'string name, uint256 age, bool verified, address wallet' });
-    } catch (e: any) { setError(e.message); } finally { setLoading(false); }
+    } catch (e: any) { const { parseContractError } = await import('@/lib/parseContractError'); setError(parseContractError(e)); } finally { setLoading(false); }
   };
 
   const handleRegister = async () => {
@@ -40,7 +40,7 @@ export default function FileSchemaPage() {
     try {
       await new Promise((r) => setTimeout(r, 2000));
       setRegisterResult({ schemaUid: '0x' + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('') });
-    } catch (e: any) { setError(e.message); } finally { setLoading(false); }
+    } catch (e: any) { const { parseContractError } = await import('@/lib/parseContractError'); setError(parseContractError(e)); } finally { setLoading(false); }
   };
 
   return (

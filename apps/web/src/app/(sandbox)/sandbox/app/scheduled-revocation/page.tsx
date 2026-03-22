@@ -35,9 +35,8 @@ export default function ScheduledRevocationPage() {
         expirationTime: record.expirationTime,
       });
     } catch (err: unknown) {
-      setError((err as Error).message?.includes('AttestationNotFound')
-        ? 'Attestation not found on-chain.'
-        : (err as Error).message || 'Lookup failed');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err));
     } finally { setLookupLoading(false); }
   };
 
@@ -53,7 +52,8 @@ export default function ScheduledRevocationPage() {
       setAttestationInfo((prev) => prev ? { ...prev, revoked: false } : null);
       alert(`Schedule created!\n\nAttestation: ${uid.trim()}\nExecute at: ${new Date(ts * 1000).toISOString()}\n\nNote: Hedera Scheduled Transactions require the @hashgraph/sdk with operator keys. Use the SDK or CLI to execute this schedule.`);
     } catch (err: unknown) {
-      setError((err as Error).message || 'Schedule failed');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err));
     } finally { setLoading(false); }
   };
 

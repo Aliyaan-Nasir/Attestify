@@ -20,7 +20,7 @@ export default function TokenStakingPage() {
     try {
       await new Promise((r) => setTimeout(r, 1500));
       setStakeResult(`Staked ${stakeAmount} tokens successfully`);
-    } catch (e: any) { setError(e.message); } finally { setLoading(false); }
+    } catch (e: any) { const { parseContractError } = await import('@/lib/parseContractError'); setError(parseContractError(e)); } finally { setLoading(false); }
   };
 
   const handleUnstake = async () => {
@@ -28,7 +28,7 @@ export default function TokenStakingPage() {
     try {
       await new Promise((r) => setTimeout(r, 1500));
       setUnstakeResult(`Unstaked ${unstakeAmount} tokens successfully`);
-    } catch (e: any) { setError(e.message); } finally { setLoading(false); }
+    } catch (e: any) { const { parseContractError } = await import('@/lib/parseContractError'); setError(parseContractError(e)); } finally { setLoading(false); }
   };
 
   const handleCheckBalance = async () => {
@@ -36,7 +36,7 @@ export default function TokenStakingPage() {
     try {
       await new Promise((r) => setTimeout(r, 1000));
       setBalanceResult({ stakedAmount: '0' });
-    } catch (e: any) { setError(e.message); } finally { setLoading(false); }
+    } catch (e: any) { const { parseContractError } = await import('@/lib/parseContractError'); setError(parseContractError(e)); } finally { setLoading(false); }
   };
 
   return (

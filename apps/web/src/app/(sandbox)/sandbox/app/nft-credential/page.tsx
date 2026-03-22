@@ -29,9 +29,8 @@ export default function NFTCredentialPage() {
       });
       setSubject(record.subject);
     } catch (err: unknown) {
-      setError((err as Error).message?.includes('AttestationNotFound')
-        ? 'Attestation not found on-chain.'
-        : (err as Error).message || 'Lookup failed');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err));
     } finally { setLookupLoading(false); }
   };
 
@@ -48,7 +47,8 @@ export default function NFTCredentialPage() {
         tokenId: tokenId.trim(),
       });
     } catch (err: unknown) {
-      setError((err as Error).message || 'Mint failed');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err));
     } finally { setLoading(false); }
   };
 

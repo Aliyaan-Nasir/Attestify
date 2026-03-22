@@ -52,7 +52,8 @@ export default function CreateAttestationPage() {
       for (const f of fields) initial[f.name] = '';
       setFieldValues(initial); setStep(1);
     } catch (err: unknown) {
-      setLoadError((err as Error).message || 'Failed to load schema');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setLoadError(parseContractError(err));
     } finally { setLoadingSchema(false); }
   };
 
@@ -83,7 +84,8 @@ export default function CreateAttestationPage() {
       }
       setStatus('success'); setStep(3);
     } catch (err: unknown) {
-      setError((err as Error).message || 'Transaction failed'); setStatus('error');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err)); setStatus('error');
     }
   };
 

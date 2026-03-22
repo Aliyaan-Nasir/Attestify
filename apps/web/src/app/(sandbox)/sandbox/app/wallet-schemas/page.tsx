@@ -19,7 +19,8 @@ export default function WalletSchemasPage() {
       setSchemas(res.data);
       setSearched(true);
     } catch (err: unknown) {
-      setError((err as Error).message || 'Failed to fetch schemas');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err));
     } finally { setLoading(false); }
   };
 

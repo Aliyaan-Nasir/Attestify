@@ -49,7 +49,8 @@ export default function SchemaEncoderPage() {
       const encoded = coder.encode(types, values);
       setResult(encoded);
     } catch (err: unknown) {
-      setError((err as Error).message || 'Encoding failed');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err));
     }
   };
 
@@ -67,7 +68,8 @@ export default function SchemaEncoderPage() {
       }
       setResult(out);
     } catch (err: unknown) {
-      setError((err as Error).message || 'Decoding failed');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err));
     }
   };
 

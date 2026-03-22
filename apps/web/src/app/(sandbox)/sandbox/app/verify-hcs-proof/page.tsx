@@ -83,7 +83,8 @@ export default function VerifyHCSProofPage() {
         hcsMessage,
       });
     } catch (err: unknown) {
-      setError((err as Error).message || 'Verification failed');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err));
     } finally { setLoading(false); }
   };
 

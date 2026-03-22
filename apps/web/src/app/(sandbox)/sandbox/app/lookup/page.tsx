@@ -44,10 +44,8 @@ export default function LookupPage() {
         nonce: record.nonce,
       });
     } catch (err: unknown) {
-      const msg = (err as Error).message || 'Lookup failed';
-      if (msg.includes('AttestationNotFound')) setError('Attestation not found on-chain.');
-      else if (msg.includes('AttestationExpired')) setError('Attestation exists but has expired.');
-      else setError(msg);
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err));
     } finally { setLoading(false); }
   };
 

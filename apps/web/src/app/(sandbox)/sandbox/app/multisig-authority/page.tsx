@@ -23,7 +23,7 @@ export default function MultiSigAuthorityPage() {
       // Demo: simulate the SDK call
       await new Promise((r) => setTimeout(r, 2000));
       setResult({ accountId: '0.0.' + Math.floor(Math.random() * 9000000 + 1000000), threshold: parseInt(threshold), totalKeys: keys.filter(Boolean).length });
-    } catch (e: any) { setError(e.message); } finally { setLoading(false); }
+    } catch (e: any) { const { parseContractError } = await import('@/lib/parseContractError'); setError(parseContractError(e)); } finally { setLoading(false); }
   };
 
   const handleLookup = async () => {
@@ -40,7 +40,7 @@ export default function MultiSigAuthorityPage() {
       } else {
         setKeyInfo({ accountId: lookupAccount, keyType: key?._type || 'single' });
       }
-    } catch (e: any) { setError(e.message); } finally { setLoading(false); }
+    } catch (e: any) { const { parseContractError } = await import('@/lib/parseContractError'); setError(parseContractError(e)); } finally { setLoading(false); }
   };
 
   return (

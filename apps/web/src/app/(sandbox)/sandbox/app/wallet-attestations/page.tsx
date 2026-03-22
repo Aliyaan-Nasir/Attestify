@@ -24,7 +24,8 @@ export default function WalletAttestationsPage() {
       setReceived(receivedRes.data);
       setSearched(true);
     } catch (err: unknown) {
-      setError((err as Error).message || 'Failed to fetch attestations');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err));
     } finally { setLoading(false); }
   };
 

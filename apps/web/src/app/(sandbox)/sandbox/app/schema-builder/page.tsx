@@ -74,8 +74,8 @@ export default function SchemaBuilderPage() {
       setStatus('success');
       setStep(2);
     } catch (err: unknown) {
-      const e = err as Error;
-      setError(e.message || 'Transaction failed');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err));
       setStatus('error');
     }
   };

@@ -38,7 +38,8 @@ export default function WhitelistManagerPage() {
       const receipt = await tx.wait();
       setTxHash(receipt.hash); setStatus('success'); setStep(2);
     } catch (err: unknown) {
-      setError((err as Error).message || 'Transaction failed'); setStatus('error');
+      const { parseContractError } = await import('@/lib/parseContractError');
+      setError(parseContractError(err)); setStatus('error');
     }
   };
 
