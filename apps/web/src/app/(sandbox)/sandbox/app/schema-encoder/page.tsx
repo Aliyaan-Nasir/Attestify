@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Hash, ArrowRightLeft, Copy, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { ethers } from 'ethers';
+import { parseContractError } from '@/lib/parseContractError';
 
 function parseSchemaFields(definition: string): { name: string; type: string }[] {
   return definition
@@ -49,7 +50,6 @@ export default function SchemaEncoderPage() {
       const encoded = coder.encode(types, values);
       setResult(encoded);
     } catch (err: unknown) {
-      const { parseContractError } = await import('@/lib/parseContractError');
       setError(parseContractError(err));
     }
   };
@@ -68,7 +68,6 @@ export default function SchemaEncoderPage() {
       }
       setResult(out);
     } catch (err: unknown) {
-      const { parseContractError } = await import('@/lib/parseContractError');
       setError(parseContractError(err));
     }
   };
