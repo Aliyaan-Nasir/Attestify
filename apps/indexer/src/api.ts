@@ -27,7 +27,7 @@ export function createApiRouter(prisma: PrismaClient): Router {
       const offset = Math.max(parseInt(req.query.offset as string) || 0, 0);
 
       const where: Record<string, unknown> = {};
-      if (req.query.authority) where.authorityAddress = req.query.authority as string;
+      if (req.query.authority) where.authorityAddress = { equals: req.query.authority as string, mode: 'insensitive' };
 
       const [data, total] = await Promise.all([
         prisma.schema.findMany({
@@ -92,8 +92,8 @@ export function createApiRouter(prisma: PrismaClient): Router {
 
       const where: Record<string, unknown> = {};
       if (req.query.schemaUid) where.schemaUid = req.query.schemaUid as string;
-      if (req.query.subject) where.subjectAddress = req.query.subject as string;
-      if (req.query.attester) where.attesterAddress = req.query.attester as string;
+      if (req.query.subject) where.subjectAddress = { equals: req.query.subject as string, mode: 'insensitive' };
+      if (req.query.attester) where.attesterAddress = { equals: req.query.attester as string, mode: 'insensitive' };
       if (req.query.revoked !== undefined) where.revoked = String(req.query.revoked) === 'true';
 
       const [data, total] = await Promise.all([
@@ -185,7 +185,7 @@ export function createApiRouter(prisma: PrismaClient): Router {
 
   router.get('/authorities/:address', async (req: Request, res: Response) => {
     try {
-      const authority = await prisma.authority.findUnique({ where: { address: req.params.address } });
+      const authority = await prisma.authority.findFirst({ where: { address: { equals: req.params.address, mode: 'insensitive' } } });
       if (!authority) {
         return res.status(404).json({ success: false, error: 'Authority not found' });
       }
